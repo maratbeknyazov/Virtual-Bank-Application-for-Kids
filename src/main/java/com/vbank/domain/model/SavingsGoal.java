@@ -20,19 +20,21 @@ public final class SavingsGoal {
     private final Instant createdAt;
     private Instant updatedAt;
 
-    public SavingsGoal(UUID id,
-            UUID organizationId,
-            UUID childId,
-            UUID savingsAccountId,
-            String goalName,
-            long targetAmount,
-            long currentProgress,
-            LocalDate deadline,
-            String category,
-            boolean isCompleted,
-            Instant completedAt,
-            Instant createdAt,
-            Instant updatedAt) {
+    @com.fasterxml.jackson.annotation.JsonCreator
+    public SavingsGoal(
+            @com.fasterxml.jackson.annotation.JsonProperty("id") UUID id,
+            @com.fasterxml.jackson.annotation.JsonProperty("organizationId") UUID organizationId,
+            @com.fasterxml.jackson.annotation.JsonProperty("childId") UUID childId,
+            @com.fasterxml.jackson.annotation.JsonProperty("savingsAccountId") UUID savingsAccountId,
+            @com.fasterxml.jackson.annotation.JsonProperty("goalName") String goalName,
+            @com.fasterxml.jackson.annotation.JsonProperty("targetAmount") long targetAmount,
+            @com.fasterxml.jackson.annotation.JsonProperty("currentProgress") long currentProgress,
+            @com.fasterxml.jackson.annotation.JsonProperty("deadline") LocalDate deadline,
+            @com.fasterxml.jackson.annotation.JsonProperty("category") String category,
+            @com.fasterxml.jackson.annotation.JsonProperty("isCompleted") boolean isCompleted,
+            @com.fasterxml.jackson.annotation.JsonProperty("completedAt") Instant completedAt,
+            @com.fasterxml.jackson.annotation.JsonProperty("createdAt") Instant createdAt,
+            @com.fasterxml.jackson.annotation.JsonProperty("updatedAt") Instant updatedAt) {
         Objects.requireNonNull(id, "id");
         Objects.requireNonNull(organizationId, "organizationId");
         Objects.requireNonNull(childId, "childId");

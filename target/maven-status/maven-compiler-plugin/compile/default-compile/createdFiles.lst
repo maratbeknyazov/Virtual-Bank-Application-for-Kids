@@ -1,4 +1,5 @@
 com\vbank\domain\model\Transaction$Status.class
+com\vbank\infrastructure\persistence\JsonRepository.class
 com\vbank\domain\model\User$Role.class
 com\vbank\domain\model\BankAccount.class
 com\vbank\domain\model\SavingsGoal.class
@@ -7,4 +8,5 @@ com\vbank\domain\model\BankAccount$AccountType.class
 com\vbank\domain\model\Transaction.class
 com\vbank\domain\model\Task$Status.class
 com\vbank\domain\model\User.class
+com\vbank\domain\repository\Repository.class
 com\vbank\domain\model\Transaction$TransactionType.class

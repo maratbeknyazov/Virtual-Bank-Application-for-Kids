@@ -26,18 +26,20 @@ public final class Transaction {
     private final Instant createdAt;
     private final Instant updatedAt;
 
-    public Transaction(UUID id,
-            UUID organizationId,
-            UUID accountId,
-            TransactionType transactionType,
-            long amount,
-            long balanceAfter,
-            String description,
-            String category,
-            UUID relatedTransactionId,
-            Status status,
-            Instant createdAt,
-            Instant updatedAt) {
+    @com.fasterxml.jackson.annotation.JsonCreator
+    public Transaction(
+            @com.fasterxml.jackson.annotation.JsonProperty("id") UUID id,
+            @com.fasterxml.jackson.annotation.JsonProperty("organizationId") UUID organizationId,
+            @com.fasterxml.jackson.annotation.JsonProperty("accountId") UUID accountId,
+            @com.fasterxml.jackson.annotation.JsonProperty("transactionType") TransactionType transactionType,
+            @com.fasterxml.jackson.annotation.JsonProperty("amount") long amount,
+            @com.fasterxml.jackson.annotation.JsonProperty("balanceAfter") long balanceAfter,
+            @com.fasterxml.jackson.annotation.JsonProperty("description") String description,
+            @com.fasterxml.jackson.annotation.JsonProperty("category") String category,
+            @com.fasterxml.jackson.annotation.JsonProperty("relatedTransactionId") UUID relatedTransactionId,
+            @com.fasterxml.jackson.annotation.JsonProperty("status") Status status,
+            @com.fasterxml.jackson.annotation.JsonProperty("createdAt") Instant createdAt,
+            @com.fasterxml.jackson.annotation.JsonProperty("updatedAt") Instant updatedAt) {
         Objects.requireNonNull(id, "id");
         Objects.requireNonNull(organizationId, "organizationId");
         Objects.requireNonNull(accountId, "accountId");

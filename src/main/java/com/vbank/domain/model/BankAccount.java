@@ -20,16 +20,18 @@ public final class BankAccount {
     private final Instant createdAt;
     private Instant updatedAt;
 
-    public BankAccount(UUID id,
-            UUID organizationId,
-            UUID childId,
-            AccountType accountType,
-            long balance,
-            String currencyCode,
-            String accountNumber,
-            boolean isActive,
-            Instant createdAt,
-            Instant updatedAt) {
+    @com.fasterxml.jackson.annotation.JsonCreator
+    public BankAccount(
+            @com.fasterxml.jackson.annotation.JsonProperty("id") UUID id,
+            @com.fasterxml.jackson.annotation.JsonProperty("organizationId") UUID organizationId,
+            @com.fasterxml.jackson.annotation.JsonProperty("childId") UUID childId,
+            @com.fasterxml.jackson.annotation.JsonProperty("accountType") AccountType accountType,
+            @com.fasterxml.jackson.annotation.JsonProperty("balance") long balance,
+            @com.fasterxml.jackson.annotation.JsonProperty("currencyCode") String currencyCode,
+            @com.fasterxml.jackson.annotation.JsonProperty("accountNumber") String accountNumber,
+            @com.fasterxml.jackson.annotation.JsonProperty("isActive") boolean isActive,
+            @com.fasterxml.jackson.annotation.JsonProperty("createdAt") Instant createdAt,
+            @com.fasterxml.jackson.annotation.JsonProperty("updatedAt") Instant updatedAt) {
         Objects.requireNonNull(id, "id");
         Objects.requireNonNull(organizationId, "organizationId");
         Objects.requireNonNull(childId, "childId");

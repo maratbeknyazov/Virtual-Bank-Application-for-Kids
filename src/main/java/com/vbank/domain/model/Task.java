@@ -24,19 +24,21 @@ public final class Task {
     private final Instant createdAt;
     private Instant updatedAt;
 
-    public Task(UUID id,
-            UUID organizationId,
-            UUID parentId,
-            UUID childId,
-            String taskDescription,
-            long rewardAmount,
-            Status taskStatus,
-            String category,
-            LocalDate deadline,
-            Instant submittedAt,
-            Instant approvedAt,
-            Instant createdAt,
-            Instant updatedAt) {
+    @com.fasterxml.jackson.annotation.JsonCreator
+    public Task(
+            @com.fasterxml.jackson.annotation.JsonProperty("id") UUID id,
+            @com.fasterxml.jackson.annotation.JsonProperty("organizationId") UUID organizationId,
+            @com.fasterxml.jackson.annotation.JsonProperty("parentId") UUID parentId,
+            @com.fasterxml.jackson.annotation.JsonProperty("childId") UUID childId,
+            @com.fasterxml.jackson.annotation.JsonProperty("taskDescription") String taskDescription,
+            @com.fasterxml.jackson.annotation.JsonProperty("rewardAmount") long rewardAmount,
+            @com.fasterxml.jackson.annotation.JsonProperty("taskStatus") Status taskStatus,
+            @com.fasterxml.jackson.annotation.JsonProperty("category") String category,
+            @com.fasterxml.jackson.annotation.JsonProperty("deadline") LocalDate deadline,
+            @com.fasterxml.jackson.annotation.JsonProperty("submittedAt") Instant submittedAt,
+            @com.fasterxml.jackson.annotation.JsonProperty("approvedAt") Instant approvedAt,
+            @com.fasterxml.jackson.annotation.JsonProperty("createdAt") Instant createdAt,
+            @com.fasterxml.jackson.annotation.JsonProperty("updatedAt") Instant updatedAt) {
         Objects.requireNonNull(id, "id");
         Objects.requireNonNull(organizationId, "organizationId");
         Objects.requireNonNull(parentId, "parentId");

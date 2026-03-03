@@ -20,16 +20,18 @@ public final class User {
     private final Instant createdAt;
     private final Instant updatedAt;
 
-    public User(UUID id,
-            UUID organizationId,
-            String username,
-            String name,
-            Role role,
-            String pinHash,
-            Integer age,
-            boolean accountLocked,
-            Instant createdAt,
-            Instant updatedAt) {
+    @com.fasterxml.jackson.annotation.JsonCreator
+    public User(
+            @com.fasterxml.jackson.annotation.JsonProperty("id") UUID id,
+            @com.fasterxml.jackson.annotation.JsonProperty("organizationId") UUID organizationId,
+            @com.fasterxml.jackson.annotation.JsonProperty("username") String username,
+            @com.fasterxml.jackson.annotation.JsonProperty("name") String name,
+            @com.fasterxml.jackson.annotation.JsonProperty("role") Role role,
+            @com.fasterxml.jackson.annotation.JsonProperty("pinHash") String pinHash,
+            @com.fasterxml.jackson.annotation.JsonProperty("age") Integer age,
+            @com.fasterxml.jackson.annotation.JsonProperty("accountLocked") boolean accountLocked,
+            @com.fasterxml.jackson.annotation.JsonProperty("createdAt") Instant createdAt,
+            @com.fasterxml.jackson.annotation.JsonProperty("updatedAt") Instant updatedAt) {
         // basic null checks
         Objects.requireNonNull(id, "id");
         Objects.requireNonNull(organizationId, "organizationId");
@@ -114,5 +116,39 @@ public final class User {
         return updatedAt;
     }
 
-    // equals, hashCode, toString omitted for brevity
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return accountLocked == user.accountLocked &&
+                Objects.equals(id, user.id) &&
+                Objects.equals(organizationId, user.organizationId) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(name, user.name) &&
+                role == user.role &&
+                Objects.equals(pinHash, user.pinHash) &&
+                Objects.equals(age, user.age) &&
+                Objects.equals(createdAt, user.createdAt) &&
+                Objects.equals(updatedAt, user.updatedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, organizationId, username, name, role, pinHash, age, accountLocked, createdAt, updatedAt);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", organizationId=" + organizationId +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", role=" + role +
+                ", age=" + age +
+                ", accountLocked=" + accountLocked +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
