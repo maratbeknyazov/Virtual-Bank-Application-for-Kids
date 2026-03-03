@@ -29,7 +29,7 @@ public final class BankAccount {
             @com.fasterxml.jackson.annotation.JsonProperty("balance") long balance,
             @com.fasterxml.jackson.annotation.JsonProperty("currencyCode") String currencyCode,
             @com.fasterxml.jackson.annotation.JsonProperty("accountNumber") String accountNumber,
-            @com.fasterxml.jackson.annotation.JsonProperty("isActive") boolean isActive,
+            @com.fasterxml.jackson.annotation.JsonProperty("active") boolean isActive,
             @com.fasterxml.jackson.annotation.JsonProperty("createdAt") Instant createdAt,
             @com.fasterxml.jackson.annotation.JsonProperty("updatedAt") Instant updatedAt) {
         Objects.requireNonNull(id, "id");
