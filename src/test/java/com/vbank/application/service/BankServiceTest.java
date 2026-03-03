@@ -174,7 +174,7 @@ class BankServiceTest {
     }
 
     @Test
-    void depositToCurrent_works() {
+    void deposit_successful() {
         UUID childId = UUID.randomUUID();
         UUID org = UUID.randomUUID();
         BankAccount current = new BankAccount(UUID.randomUUID(),
@@ -192,5 +192,111 @@ class BankServiceTest {
         bankService.depositToCurrent(childId, 250);
         BankAccount updated = accountRepo.findById(current.getId()).orElseThrow();
         assertEquals(250, updated.getBalance());
+    }
+
+    @Test
+    void withdrawal_moreThanBalance_throws() {
+        UUID parentId = UUID.randomUUID();
+        String parentPin = "1234";
+        String hash = BCrypt.hashpw(parentPin, BCrypt.gensalt());
+        User p = new User(parentId,
+                UUID.randomUUID(),
+                "parent",
+                "Parent",
+                User.Role.PARENT,
+                hash,
+                null,
+                false,
+                Instant.now(),
+                Instant.now());
+        userRepo.save(p);
+
+        UUID childId = UUID.randomUUID();
+        BankAccount current = new BankAccount(UUID.randomUUID(),
+                p.getOrganizationId(),
+                childId,
+                BankAccount.AccountType.CURRENT,
+                100,
+                "USD",
+                "C-WOB",
+                true,
+                Instant.now(),
+                Instant.now());
+        BankAccount savings = new BankAccount(UUID.randomUUID(),
+                p.getOrganizationId(),
+                childId,
+                BankAccount.AccountType.SAVINGS,
+                50,
+                "USD",
+                "S-WOB",
+                true,
+                Instant.now(),
+                Instant.now());
+        accountRepo.save(current);
+        accountRepo.save(savings);
+
+        assertThrows(IllegalStateException.class,
+                () -> bankService.transferToSavings(parentId, parentPin, childId, 200));
+
+        // verify that balances remain unchanged after the failed transfer
+        BankAccount afterCurrent = accountRepo.findById(current.getId()).orElseThrow();
+        BankAccount afterSavings = accountRepo.findById(savings.getId()).orElseThrow();
+        assertEquals(100, afterCurrent.getBalance());
+        assertEquals(50, afterSavings.getBalance());
+    }
+
+    @Test
+    void transfer_atomicity_sumInvariant() {
+        UUID parentId = UUID.randomUUID();
+        String parentPin = "0000";
+        String hash = BCrypt.hashpw(parentPin, BCrypt.gensalt());
+        User p = new User(parentId,
+                UUID.randomUUID(),
+                "joe",
+                "Joe",
+                User.Role.PARENT,
+                hash,
+                null,
+                false,
+                Instant.now(),
+                Instant.now());
+        userRepo.save(p);
+
+        UUID childId = UUID.randomUUID();
+        BankAccount current = new BankAccount(UUID.randomUUID(),
+                p.getOrganizationId(),
+                childId,
+                BankAccount.AccountType.CURRENT,
+                5000,
+                "USD",
+                "C-AT",
+                true,
+                Instant.now(),
+                Instant.now());
+        BankAccount savings = new BankAccount(UUID.randomUUID(),
+                p.getOrganizationId(),
+                childId,
+                BankAccount.AccountType.SAVINGS,
+                2000,
+                "USD",
+                "S-AT",
+                true,
+                Instant.now(),
+                Instant.now());
+        accountRepo.save(current);
+        accountRepo.save(savings);
+
+        long totalBefore = current.getBalance() + savings.getBalance();
+        long transferAmount = 1500;
+
+        bankService.transferToSavings(parentId, parentPin, childId, transferAmount);
+
+        BankAccount afterCurrent = accountRepo.findById(current.getId()).orElseThrow();
+        BankAccount afterSavings = accountRepo.findById(savings.getId()).orElseThrow();
+
+        // both accounts should be updated and the overall sum preserved
+        assertEquals(totalBefore, afterCurrent.getBalance() + afterSavings.getBalance());
+        assertEquals(current.getBalance() - transferAmount, afterCurrent.getBalance());
+        assertEquals(savings.getBalance() + transferAmount, afterSavings.getBalance());
     }
 }
