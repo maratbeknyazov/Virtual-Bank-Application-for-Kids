@@ -5,13 +5,13 @@ import com.vbank.application.service.UserService;
 import com.vbank.domain.model.Task;
 import com.vbank.domain.model.User;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,10 +45,11 @@ class DashboardControllerTest {
 
     @Test
     void loadChildren_populatesList() {
+        Instant now = Instant.now();
         User child1 = new User(UUID.randomUUID(), UUID.randomUUID(), "c1", "Child One", User.Role.CHILD, "h", null,
-                false, null, null);
+                false, now, now);
         User child2 = new User(UUID.randomUUID(), UUID.randomUUID(), "c2", "Child Two", User.Role.CHILD, "h", null,
-                false, null, null);
+                false, now, now);
         when(userService.getAllChildren()).thenReturn(List.of(child1, child2));
 
         controller.loadChildren();
@@ -60,8 +61,9 @@ class DashboardControllerTest {
     @Test
     void loadDataForChild_showsTasks() {
         UUID childId = UUID.randomUUID();
+        Instant now = Instant.now();
         Task t = new Task(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), childId,
-                "do", 10, Task.Status.OPEN, "", null, null, null, null, null);
+                "do", 10, Task.Status.OPEN, "", null, null, null, now, now);
         when(taskService.getTasksForChild(childId)).thenReturn(List.of(t));
 
         controller.loadDataForChild(childId);

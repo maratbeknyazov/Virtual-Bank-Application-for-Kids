@@ -44,7 +44,6 @@ public class DashboardController {
     @FXML
     private Button approveButton;
 
-    private BankService bankService;
     private TaskService taskService;
     private UserService userService;
 
@@ -64,7 +63,6 @@ public class DashboardController {
     public void setServices(BankService bankService,
             TaskService taskService,
             UserService userService) {
-        this.bankService = bankService;
         this.taskService = taskService;
         this.userService = userService;
         // after services are available we can populate UI elements that depend on them
