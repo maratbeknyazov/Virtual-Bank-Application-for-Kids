@@ -1,0 +1,12 @@
+[ {
+  "id" : "92a19e48-2c0e-4804-92ee-5b1365a9963b",
+  "organizationId" : "2297a9b7-ec35-457d-9f16-0bb2117d96d2",
+  "childId" : "e2a5c751-d321-4916-b90d-8e5437c3736b",
+  "accountType" : "CURRENT",
+  "balance" : 0,
+  "currencyCode" : "USD",
+  "accountNumber" : "C-001",
+  "active" : true,
+  "createdAt" : "2026-03-10T16:16:11.932160900Z",
+  "updatedAt" : "2026-03-10T16:16:11.932160900Z"
+} ]

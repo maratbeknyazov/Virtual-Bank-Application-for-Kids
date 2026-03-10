@@ -1,0 +1,15 @@
+[ {
+  "id" : "b5bc0019-a83f-49d8-b451-33798510fd44",
+  "organizationId" : "2297a9b7-ec35-457d-9f16-0bb2117d96d2",
+  "parentId" : "8ed953f8-2d19-41f6-8848-273b2c3b6da8",
+  "childId" : "e2a5c751-d321-4916-b90d-8e5437c3736b",
+  "taskDescription" : "Do homework",
+  "rewardAmount" : 100,
+  "taskStatus" : "SUBMITTED",
+  "category" : "school",
+  "deadline" : "2026-03-12",
+  "submittedAt" : "2026-03-10T16:16:11.944316Z",
+  "approvedAt" : null,
+  "createdAt" : "2026-03-10T16:16:11.944316Z",
+  "updatedAt" : "2026-03-10T16:16:11.944316Z"
+} ]

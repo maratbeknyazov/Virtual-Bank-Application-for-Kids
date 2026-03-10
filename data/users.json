@@ -1,0 +1,23 @@
+[ {
+  "id" : "8ed953f8-2d19-41f6-8848-273b2c3b6da8",
+  "organizationId" : "2297a9b7-ec35-457d-9f16-0bb2117d96d2",
+  "username" : "parent",
+  "name" : "Parent User",
+  "role" : "PARENT",
+  "pinHash" : "$2a$10$YRuE1FdHWPC2.WHX6a9lJuBmQsPFyDc39rQVX2FRhygmGHj39CcLS",
+  "age" : null,
+  "accountLocked" : false,
+  "createdAt" : "2026-03-10T16:16:11.841728100Z",
+  "updatedAt" : "2026-03-10T16:16:11.841728100Z"
+}, {
+  "id" : "e2a5c751-d321-4916-b90d-8e5437c3736b",
+  "organizationId" : "2297a9b7-ec35-457d-9f16-0bb2117d96d2",
+  "username" : "child",
+  "name" : "Child User",
+  "role" : "CHILD",
+  "pinHash" : "$2a$10$xKzbTiEhDTsTihEAgeT/eOi.5wKvZqDdUJmsEVSeNfeL33EcFW/xS",
+  "age" : 10,
+  "accountLocked" : false,
+  "createdAt" : "2026-03-10T16:16:11.916693200Z",
+  "updatedAt" : "2026-03-10T16:16:11.916693200Z"
+} ]

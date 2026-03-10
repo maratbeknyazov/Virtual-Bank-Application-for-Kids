@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
 
 <TabPane fx:id="mainTabPane" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vbank.presentation.DashboardController">
     <tabs>
         <Tab text="Child" fx:id="childTab">
-            <VBox spacing="10" padding="10" style="-fx-background-color: lightblue;">
+            <VBox style="-fx-background-color: lightblue;">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10" />
+                </padding>
                 <Label text="Savings Goals" style="-fx-font-size:16px; -fx-font-weight:bold;" />
-                <ListView fx:id="goalsList" prefHeight="100" />
+                <ListView fx:id="goalsList" prefHeight="100.0" />
                 <Label text="Tasks" style="-fx-font-size:16px; -fx-font-weight:bold;" />
-                <ListView fx:id="tasksList" prefHeight="150" />
+                <ListView fx:id="tasksList" prefHeight="150.0" />
             </VBox>
         </Tab>
         <Tab text="Parent" fx:id="parentTab">
-            <VBox spacing="10" padding="10" style="-fx-background-color: lightgray;">
+            <VBox style="-fx-background-color: lightgray;">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10" />
+                </padding>
                 <Label text="Children" style="-fx-font-size:16px; -fx-font-weight:bold;" />
-                <ListView fx:id="childrenList" prefHeight="100" />
+                <ListView fx:id="childrenList" prefHeight="100.0" />
                 <Label text="Pending Tasks" style="-fx-font-size:16px; -fx-font-weight:bold;" />
-                <ListView fx:id="pendingTasksList" prefHeight="150" />
+                <ListView fx:id="pendingTasksList" prefHeight="150.0" />
                 <Button fx:id="approveButton" text="Approve Task" onAction="#onApprovePressed" disable="true" />
             </VBox>
         </Tab>
