@@ -5,6 +5,17 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Represents a savings goal set by a child in the Virtual Bank Application for
+ * Kids.
+ * Savings goals track progress towards a target amount stored in a savings
+ * account.
+ * Goals can be categorized and have deadlines for completion tracking.
+ *
+ * @author Virtual Bank Team
+ * @version 1.0
+ * @since 1.0
+ */
 public final class SavingsGoal {
     private final UUID id;
     private final UUID organizationId;
@@ -20,6 +31,25 @@ public final class SavingsGoal {
     private final Instant createdAt;
     private Instant updatedAt;
 
+    /**
+     * Constructs a new SavingsGoal instance.
+     *
+     * @param id               the unique identifier of the savings goal
+     * @param organizationId   the identifier of the organization
+     * @param childId          the identifier of the child who set this goal
+     * @param savingsAccountId the identifier of the savings account linked to this
+     *                         goal
+     * @param goalName         the name of the savings goal (1-255 characters)
+     * @param targetAmount     the target amount in cents (must be positive)
+     * @param currentProgress  the current progress towards the goal in cents
+     * @param deadline         the deadline for achieving the goal
+     * @param category         the category of the goal
+     * @param isCompleted      whether the goal has been completed
+     * @param completedAt      the timestamp when the goal was completed (optional)
+     * @param createdAt        the timestamp when the goal was created
+     * @param updatedAt        the timestamp when the goal was last updated
+     * @throws IllegalArgumentException if any required parameter is null or invalid
+     */
     @com.fasterxml.jackson.annotation.JsonCreator
     public SavingsGoal(
             @com.fasterxml.jackson.annotation.JsonProperty("id") UUID id,

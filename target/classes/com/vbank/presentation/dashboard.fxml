@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane fx:id="mainTabPane" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vbank.presentation.DashboardController">
+    <tabs>
+        <Tab text="Child" fx:id="childTab">
+            <VBox spacing="10" padding="10" style="-fx-background-color: lightblue;">
+                <Label text="Savings Goals" style="-fx-font-size:16px; -fx-font-weight:bold;" />
+                <ListView fx:id="goalsList" prefHeight="100" />
+                <Label text="Tasks" style="-fx-font-size:16px; -fx-font-weight:bold;" />
+                <ListView fx:id="tasksList" prefHeight="150" />
+            </VBox>
+        </Tab>
+        <Tab text="Parent" fx:id="parentTab">
+            <VBox spacing="10" padding="10" style="-fx-background-color: lightgray;">
+                <Label text="Children" style="-fx-font-size:16px; -fx-font-weight:bold;" />
+                <ListView fx:id="childrenList" prefHeight="100" />
+                <Label text="Pending Tasks" style="-fx-font-size:16px; -fx-font-weight:bold;" />
+                <ListView fx:id="pendingTasksList" prefHeight="150" />
+                <Button fx:id="approveButton" text="Approve Task" onAction="#onApprovePressed" disable="true" />
+            </VBox>
+        </Tab>
+    </tabs>
+</TabPane>

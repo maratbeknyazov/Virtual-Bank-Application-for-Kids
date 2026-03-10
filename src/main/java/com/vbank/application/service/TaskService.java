@@ -7,20 +7,49 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Application service managing tasks and rewards.
+ * Application service managing tasks and rewards in the Virtual Bank
+ * Application for Kids.
  * <p>
- * Designed around the workflow described in the requirements: a parent creates
- * a
- * task and assigns it to a child, the child submits the task when finished, and
- * the parent approves it. Upon approval the reward is automatically deposited
- * into the child's current account via {@link BankService} and the task is
- * transitioned to the completed state.
+ * This service handles the complete task lifecycle: creation by parents,
+ * submission by children,
+ * approval by parents, and automatic reward distribution. It coordinates with
+ * the BankService
+ * to deposit rewards into children's accounts upon task completion.
+ * </p>
+ *
+ * <p>
+ * The service supports the following workflow:
+ * </p>
+ * <ol>
+ * <li>Parent creates a task with reward amount</li>
+ * <li>Child submits the completed task</li>
+ * <li>Parent approves the task with PIN verification</li>
+ * <li>Reward is automatically deposited to child's current account</li>
+ * <li>Task status is updated to COMPLETED</li>
+ * </ol>
+ *
+ * @author Virtual Bank Team
+ * @version 1.0
+ * @since 1.0
  */
 public class TaskService {
     private final Repository<Task> taskRepo;
     private final BankService bankService;
 
+    /**
+     * Constructs a new TaskService with the required dependencies.
+     *
+     * @param taskRepo    the repository for task operations
+     * @param bankService the bank service for reward deposits
+     * @throws IllegalArgumentException if either parameter is null
+     */
     public TaskService(Repository<Task> taskRepo, BankService bankService) {
+        if (taskRepo == null) {
+            throw new IllegalArgumentException("taskRepo cannot be null");
+        }
+        if (bankService == null) {
+            throw new IllegalArgumentException("bankService cannot be null");
+        }
         this.taskRepo = taskRepo;
         this.bankService = bankService;
     }
@@ -30,9 +59,13 @@ public class TaskService {
      * against the parent account, the task status is changed and the reward is
      * credited to the child's current account in a single operation.
      *
-     * @throws SecurityException     if the parent id does not match the task or the
-     *                               PIN check fails
-     * @throws IllegalStateException if the task is in an inappropriate state
+     * @param taskId    the unique identifier of the task to approve
+     * @param parentId  the ID of the parent approving the task
+     * @param parentPin the parent's PIN for authorization
+     * @throws SecurityException        if the parent id does not match the task or
+     *                                  the PIN check fails
+     * @throws IllegalStateException    if the task is in an inappropriate state
+     * @throws IllegalArgumentException if the task is not found
      */
     public void approveTask(UUID taskId, UUID parentId, String parentPin) {
         Task t = taskRepo.findById(taskId)
@@ -59,5 +92,25 @@ public class TaskService {
         t.complete(Instant.now());
 
         taskRepo.save(t);
+    }
+
+    /**
+     * Returns all tasks assigned to a particular child. Useful for rendering
+     * a child's dashboard.
+     */
+    public java.util.List<com.vbank.domain.model.Task> getTasksForChild(UUID childId) {
+        return taskRepo.findAll().stream()
+                .filter(t -> t.getChildId().equals(childId))
+                .toList();
+    }
+
+    /**
+     * Returns all tasks created by a particular parent. This allows the parent
+     * dashboard to show pending approvals.
+     */
+    public java.util.List<com.vbank.domain.model.Task> getTasksForParent(UUID parentId) {
+        return taskRepo.findAll().stream()
+                .filter(t -> t.getParentId().equals(parentId))
+                .toList();
     }
 }

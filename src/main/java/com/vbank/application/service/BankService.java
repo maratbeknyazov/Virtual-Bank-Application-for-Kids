@@ -9,26 +9,57 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Application service coordinating bank account operations.
+ * Application service coordinating bank account operations in the Virtual Bank Application for Kids.
  * <p>
- * Only a very small portion of the banking logic lives here – the heavy
- * lifting is done by the domain objects. The service performs lookups,
- * enforces simple invariants and orchestrates use cases such as transfers
- * between the two accounts belonging to a child.
+ * This service handles banking operations such as PIN verification, deposits, withdrawals,
+ * and transfers between accounts. It orchestrates domain objects and enforces business rules
+ * while keeping the domain logic within the domain models themselves.
+ * </p>
+ *
+ * <p>The service performs the following key functions:</p>
+ * <ul>
+ *   <li>PIN verification for user authentication</li>
+ *   <li>Deposit operations to accounts</li>
+ *   <li>Withdrawal operations from current accounts</li>
+ *   <li>Transfer operations between a child's current and savings accounts</li>
+ *   <li>Account balance inquiries</li>
+ * </ul>
+ *
+ * @author Virtual Bank Team
+ * @version 1.0
+ * @since 1.0
  */
 public class BankService {
     private final Repository<BankAccount> accountRepo;
     private final Repository<User> userRepo;
 
+    /**
+     * Constructs a new BankService with the required repositories.
+     *
+     * @param accountRepo the repository for bank account operations
+     * @param userRepo the repository for user operations
+     * @throws IllegalArgumentException if either repository is null
+     */
     public BankService(Repository<BankAccount> accountRepo,
             Repository<User> userRepo) {
+        if (accountRepo == null) {
+            throw new IllegalArgumentException("accountRepo cannot be null");
+        }
+        if (userRepo == null) {
+            throw new IllegalArgumentException("userRepo cannot be null");
+        }
         this.accountRepo = accountRepo;
         this.userRepo = userRepo;
     }
 
     /**
-     * Verifies that the provided plain‑text PIN matches the stored hash for the
+     * Verifies that the provided plain-text PIN matches the stored hash for the
      * given user. Throws an exception if the user does not exist.
+     *
+     * @param userId the unique identifier of the user
+     * @param pin the plain-text PIN to verify
+     * @return true if the PIN matches, false otherwise
+     * @throws IllegalArgumentException if the user does not exist
      */
     public boolean checkPin(UUID userId, String pin) {
         User u = userRepo.findById(userId)
@@ -46,6 +77,14 @@ public class BankService {
      * <p>
      * The method looks up the two accounts by the child's id and account
      * type, performs basic sanity checks and persists the modified entities.
+     * </p>
+     *
+     * @param parentId the ID of the parent authorizing the transfer
+     * @param childId the ID of the child whose accounts are involved
+     * @param amount the amount to transfer in cents (must be positive)
+     * @param parentPin the parent's PIN for authorization
+     * @throws IllegalArgumentException if validation fails or accounts not found
+     * @throws IllegalStateException if PIN verification fails
      */
     public void transferToSavings(UUID parentId,
             String parentPin,

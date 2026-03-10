@@ -4,7 +4,19 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Represents a bank account in the Virtual Bank Application for Kids.
+ * Each child can have multiple accounts (current and savings).
+ * This class manages account balance and transaction operations.
+ *
+ * @author Virtual Bank Team
+ * @version 1.0
+ * @since 1.0
+ */
 public final class BankAccount {
+    /**
+     * Enumeration of possible account types.
+     */
     public enum AccountType {
         CURRENT, SAVINGS
     }
@@ -20,6 +32,21 @@ public final class BankAccount {
     private final Instant createdAt;
     private Instant updatedAt;
 
+    /**
+     * Constructs a new BankAccount instance.
+     *
+     * @param id             the unique identifier of the account
+     * @param organizationId the identifier of the organization
+     * @param childId        the identifier of the child who owns this account
+     * @param accountType    the type of account (CURRENT or SAVINGS)
+     * @param balance        the current balance in cents (must be non-negative)
+     * @param currencyCode   the currency code (e.g., "USD")
+     * @param accountNumber  the account number
+     * @param isActive       whether the account is active
+     * @param createdAt      the timestamp when the account was created
+     * @param updatedAt      the timestamp when the account was last updated
+     * @throws IllegalArgumentException if any required parameter is null or invalid
+     */
     @com.fasterxml.jackson.annotation.JsonCreator
     public BankAccount(
             @com.fasterxml.jackson.annotation.JsonProperty("id") UUID id,
@@ -67,6 +94,16 @@ public final class BankAccount {
     }
 
     // operations that modify mutable fields
+
+    /**
+     * Deposits the specified amount into this account.
+     * This operation is thread-safe.
+     *
+     * @param amount    the amount to deposit in cents (must be positive)
+     * @param timestamp the timestamp of the operation
+     * @throws IllegalArgumentException if amount is not positive or timestamp is
+     *                                  invalid
+     */
     public synchronized void deposit(long amount, Instant timestamp) {
         if (amount <= 0) {
             throw new IllegalArgumentException("deposit amount must be positive");
@@ -75,6 +112,17 @@ public final class BankAccount {
         updateTimestamp(timestamp);
     }
 
+    /**
+     * Withdraws the specified amount from this account.
+     * Only available for CURRENT accounts. This operation is thread-safe.
+     *
+     * @param amount    the amount to withdraw in cents (must be positive)
+     * @param timestamp the timestamp of the operation
+     * @throws IllegalArgumentException if amount is not positive, insufficient
+     *                                  balance, or invalid timestamp
+     * @throws IllegalStateException    if attempting to withdraw from a SAVINGS
+     *                                  account
+     */
     public synchronized void withdraw(long amount, Instant timestamp) {
         if (amount <= 0) {
             throw new IllegalArgumentException("withdrawal amount must be positive");
@@ -89,6 +137,13 @@ public final class BankAccount {
         updateTimestamp(timestamp);
     }
 
+    /**
+     * Updates the last modified timestamp of this account.
+     *
+     * @param timestamp the new timestamp
+     * @throws IllegalArgumentException if timestamp is null or before current
+     *                                  updatedAt
+     */
     private void updateTimestamp(Instant timestamp) {
         Objects.requireNonNull(timestamp, "timestamp");
         if (timestamp.isBefore(this.updatedAt)) {
@@ -98,26 +153,57 @@ public final class BankAccount {
     }
 
     // getters
+
+    /**
+     * Returns the unique identifier of this account.
+     *
+     * @return the account ID
+     */
     public UUID getId() {
         return id;
     }
 
+    /**
+     * Returns the identifier of the organization this account belongs to.
+     *
+     * @return the organization ID
+     */
     public UUID getOrganizationId() {
         return organizationId;
     }
 
+    /**
+     * Returns the identifier of the child who owns this account.
+     *
+     * @return the child ID
+     */
     public UUID getChildId() {
         return childId;
     }
 
+    /**
+     * Returns the type of this account.
+     *
+     * @return the account type (CURRENT or SAVINGS)
+     */
     public AccountType getAccountType() {
         return accountType;
     }
 
+    /**
+     * Returns the current balance of this account.
+     *
+     * @return the balance in cents
+     */
     public long getBalance() {
         return balance;
     }
 
+    /**
+     * Returns the currency code of this account.
+     *
+     * @return the currency code (e.g., "USD")
+     */
     public String getCurrencyCode() {
         return currencyCode;
     }

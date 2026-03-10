@@ -1,1 +1,4 @@
 com\vbank\infrastructure\persistence\JsonRepositoryTest.class
+com\vbank\application\service\BankServiceTest.class
+com\vbank\presentation\DashboardControllerTest.class
+com\vbank\application\service\TaskServiceTest.class

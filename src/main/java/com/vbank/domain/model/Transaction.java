@@ -4,11 +4,26 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Represents a financial transaction in the Virtual Bank Application for Kids.
+ * Transactions can be deposits, withdrawals, or transfers between accounts.
+ * This class is immutable and thread-safe.
+ *
+ * @author Virtual Bank Team
+ * @version 1.0
+ * @since 1.0
+ */
 public final class Transaction {
+    /**
+     * Enumeration of possible transaction types.
+     */
     public enum TransactionType {
         DEPOSIT, WITHDRAWAL, TRANSFER
     }
 
+    /**
+     * Enumeration of possible transaction statuses.
+     */
     public enum Status {
         PENDING, COMPLETED, FAILED, REJECTED
     }
@@ -26,6 +41,27 @@ public final class Transaction {
     private final Instant createdAt;
     private final Instant updatedAt;
 
+    /**
+     * Constructs a new Transaction instance.
+     *
+     * @param id                   the unique identifier of the transaction
+     * @param organizationId       the identifier of the organization
+     * @param accountId            the identifier of the account this transaction
+     *                             belongs to
+     * @param transactionType      the type of transaction (DEPOSIT, WITHDRAWAL, or
+     *                             TRANSFER)
+     * @param amount               the transaction amount in cents (must be
+     *                             positive)
+     * @param balanceAfter         the account balance after this transaction
+     * @param description          a description of the transaction
+     * @param category             the category of the transaction
+     * @param relatedTransactionId the ID of a related transaction (for transfers)
+     * @param status               the status of the transaction
+     * @param createdAt            the timestamp when the transaction was created
+     * @param updatedAt            the timestamp when the transaction was last
+     *                             updated
+     * @throws IllegalArgumentException if any required parameter is null or invalid
+     */
     @com.fasterxml.jackson.annotation.JsonCreator
     public Transaction(
             @com.fasterxml.jackson.annotation.JsonProperty("id") UUID id,
@@ -77,6 +113,16 @@ public final class Transaction {
 
     // since transactions are immutable, no setters are provided
 
+    /**
+     * Creates a new Transaction instance with an updated status.
+     * This method allows changing the status of a pending transaction to completed
+     * or failed.
+     *
+     * @param newStatus the new status for the transaction
+     * @param updatedAt the timestamp of the status update
+     * @return a new Transaction instance with the updated status
+     * @throws IllegalArgumentException if newStatus is null or updatedAt is invalid
+     */
     public Transaction withStatus(Status newStatus, Instant updatedAt) {
         // allow changing status for pending→completed/failed, but not other fields
         if (newStatus == null) {
@@ -91,30 +137,66 @@ public final class Transaction {
     }
 
     // getters
+
+    /**
+     * Returns the unique identifier of this transaction.
+     *
+     * @return the transaction ID
+     */
     public UUID getId() {
         return id;
     }
 
+    /**
+     * Returns the identifier of the organization this transaction belongs to.
+     *
+     * @return the organization ID
+     */
     public UUID getOrganizationId() {
         return organizationId;
     }
 
+    /**
+     * Returns the identifier of the account this transaction belongs to.
+     *
+     * @return the account ID
+     */
     public UUID getAccountId() {
         return accountId;
     }
 
+    /**
+     * Returns the type of this transaction.
+     *
+     * @return the transaction type (DEPOSIT, WITHDRAWAL, or TRANSFER)
+     */
     public TransactionType getTransactionType() {
         return transactionType;
     }
 
+    /**
+     * Returns the amount of this transaction.
+     *
+     * @return the amount in cents
+     */
     public long getAmount() {
         return amount;
     }
 
+    /**
+     * Returns the account balance after this transaction was executed.
+     *
+     * @return the balance after transaction in cents
+     */
     public long getBalanceAfter() {
         return balanceAfter;
     }
 
+    /**
+     * Returns the description of this transaction.
+     *
+     * @return the transaction description, or null if not provided
+     */
     public String getDescription() {
         return description;
     }

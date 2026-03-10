@@ -5,7 +5,21 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Represents a task created by a parent for a child in the Virtual Bank
+ * Application for Kids.
+ * Tasks have rewards that are deposited to the child's account upon completion
+ * and approval.
+ * This class manages the task lifecycle from creation to completion.
+ *
+ * @author Virtual Bank Team
+ * @version 1.0
+ * @since 1.0
+ */
 public final class Task {
+    /**
+     * Enumeration of possible task statuses.
+     */
     public enum Status {
         OPEN, SUBMITTED, APPROVED, REJECTED, COMPLETED, EXPIRED
     }
@@ -24,6 +38,24 @@ public final class Task {
     private final Instant createdAt;
     private Instant updatedAt;
 
+    /**
+     * Constructs a new Task instance.
+     *
+     * @param id              the unique identifier of the task
+     * @param organizationId  the identifier of the organization
+     * @param parentId        the identifier of the parent who created the task
+     * @param childId         the identifier of the child assigned to the task
+     * @param taskDescription the description of the task
+     * @param rewardAmount    the reward amount in cents (must be positive)
+     * @param taskStatus      the current status of the task
+     * @param category        the category of the task
+     * @param deadline        the deadline for task completion
+     * @param submittedAt     the timestamp when the task was submitted (optional)
+     * @param approvedAt      the timestamp when the task was approved (optional)
+     * @param createdAt       the timestamp when the task was created
+     * @param updatedAt       the timestamp when the task was last updated
+     * @throws IllegalArgumentException if any required parameter is null or invalid
+     */
     @com.fasterxml.jackson.annotation.JsonCreator
     public Task(
             @com.fasterxml.jackson.annotation.JsonProperty("id") UUID id,

@@ -19,18 +19,49 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 
 /**
- * Simple JSON-backed repository implementation using Jackson.
- * Data is stored in the {@code data/} directory at project root.
- * Filenames are derived from the entity class name (lowercased + "s.json").
+ * JSON-backed repository implementation for the Virtual Bank Application for
+ * Kids.
  * <p>
- * The implementation reads and writes the entire list on each operation; this
- * is sufficient for the small scale of the demo application.
+ * This implementation provides persistent storage using JSON files. Data is
+ * stored
+ * in the {@code data/} directory at project root. Filenames are derived from
+ * the
+ * entity class name (lowercased + "s.json"). Each operation reads and writes
+ * the
+ * entire list, which is suitable for the small scale of this demo application.
+ * </p>
+ *
+ * <p>
+ * Features:
+ * </p>
+ * <ul>
+ * <li>Automatic JSON serialization/deserialization using Jackson</li>
+ * <li>Thread-safe operations for concurrent access</li>
+ * <li>Automatic data directory and file creation</li>
+ * <li>Support for Java 8 date/time types and UUIDs</li>
+ * <li>Entity identification by UUID</li>
+ * </ul>
+ *
+ * @param <T> the entity type stored in this repository
+ * @author Virtual Bank Team
+ * @version 1.0
+ * @since 1.0
  */
 public class JsonRepository<T> implements Repository<T> {
     private final Class<T> clazz;
     private final Path filePath;
     private final ObjectMapper mapper;
 
+    /**
+     * Constructs a new JsonRepository for the specified entity type.
+     * <p>
+     * The repository will create a JSON file named after the entity class
+     * (e.g., "users.json" for User entities) in the "data/" directory.
+     * </p>
+     *
+     * @param clazz the Class object of the entity type
+     * @throws RuntimeException if the data directory cannot be created
+     */
     public JsonRepository(Class<T> clazz) {
         this.clazz = clazz;
         this.mapper = new ObjectMapper();
@@ -43,6 +74,12 @@ public class JsonRepository<T> implements Repository<T> {
         ensureDataFileExists();
     }
 
+    /**
+     * Ensures that the data file and directory exist.
+     * Creates the data directory and an empty JSON array file if they don't exist.
+     *
+     * @throws RuntimeException if file creation fails
+     */
     private void ensureDataFileExists() {
         try {
             Files.createDirectories(filePath.getParent());

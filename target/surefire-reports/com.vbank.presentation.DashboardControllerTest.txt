@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------
+Test set: com.vbank.presentation.DashboardControllerTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 1.298 s <<< FAILURE! -- in com.vbank.presentation.DashboardControllerTest
+com.vbank.presentation.DashboardControllerTest.loadDataForChild_showsTasks -- Time elapsed: 0.954 s <<< ERROR!
+java.lang.NullPointerException: createdAt
+	at java.base/java.util.Objects.requireNonNull(Objects.java:259)
+	at com.vbank.domain.model.Task.<init>(Task.java:48)
+	at com.vbank.presentation.DashboardControllerTest.loadDataForChild_showsTasks(DashboardControllerTest.java:63)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.vbank.presentation.DashboardControllerTest.loadChildren_populatesList -- Time elapsed: 0.005 s <<< ERROR!
+java.lang.NullPointerException: createdAt
+	at java.base/java.util.Objects.requireNonNull(Objects.java:259)
+	at com.vbank.domain.model.User.<init>(User.java:42)
+	at com.vbank.presentation.DashboardControllerTest.loadChildren_populatesList(DashboardControllerTest.java:48)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
